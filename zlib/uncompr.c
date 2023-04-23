@@ -52,7 +52,7 @@ int ZEXPORT uncompress2 (dest, destLen, source, sourceLen)
     stream.zfree = (free_func)0;
     stream.opaque = (voidpf)0;
 
-    err = inflateInit(&stream);
+    err = inflateInit2(&stream, 31);
     if (err != Z_OK) return err;
 
     stream.next_out = dest;
@@ -67,7 +67,7 @@ int ZEXPORT uncompress2 (dest, destLen, source, sourceLen)
             stream.avail_in = len > (uLong)max ? max : (uInt)len;
             len -= stream.avail_in;
         }
-        err = inflate(&stream, Z_NO_FLUSH);
+        err = inflate(&stream, Z_FULL_FLUSH);
     } while (err == Z_OK);
 
     *sourceLen -= len + stream.avail_in;
